@@ -104,7 +104,6 @@ const CertificateDisplay: React.FC = () => {
                 cacheBust: true,
                 pixelRatio: 2,
             });
-
             return dataUrl;
         } catch (error) {
             console.error('Capture failed:', error);
@@ -227,91 +226,91 @@ const CertificateDisplay: React.FC = () => {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-black p-6 flex flex-col items-center">
-            <div ref={certificateRef} className="relative w-full max-w-4xl rounded-xl shadow-2xl p-10 overflow-hidden border-4 border-opacity-20 border-blue-400 bg-gradient-to-br from-white to-gray-100">
+        <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-black p-4 sm:p-6 flex flex-col items-center">
+            <div ref={certificateRef} className="relative w-full max-w-4xl rounded-xl shadow-2xl p-6 sm:p-10 overflow-hidden border-4 border-opacity-20 border-blue-400 bg-gradient-to-br from-white to-gray-100">
                 <div className="absolute inset-0 bg-[url('/back.png')] bg-cover z-10 pointer-events-none" />
                 <img src="/ssd.png" alt="Logo" className="absolute justify-center z-20 opacity-20 w-full" />
                 <div className="relative z-30">
-                    <div className="text-center mb-8">
-                        <img src="/icon.png" alt="Logo" className="w-40 mx-auto mb-3" />
-                        <h1 className="text-3xl font-bold uppercase text-gray-800 tracking-wide leading-tight">
+                    <div className="text-center mb-6 sm:mb-8">
+                        <img src="/icon.png" alt="Logo" className="w-24 sm:w-40 mx-auto mb-2 sm:mb-3" />
+                        <h1 className="text-xl sm:text-3xl font-bold uppercase text-gray-800 tracking-wide leading-tight">
                             The Spatial & Data Science Institute
                         </h1>
-                        <p className="text-sm text-gray-500 italic mt-1">*Recognizing Excellence in Learning*</p>
+                        <p className="text-xs sm:text-sm text-gray-500 italic mt-1">*Recognizing Excellence in Learning*</p>
                     </div>
-                    <div className="text-center mb-8">
-                        <div className="inline-block border-b-8 border-blue-500 pb-2">
-                            <h2 className="text-5xl font-semibold text-blue-700 tracking-tight">
+                    <div className="text-center mb-6 sm:mb-8">
+                        <div className="inline-block border-b-4 sm:border-b-8 border-blue-500 pb-1 sm:pb-2">
+                            <h2 className="text-3xl sm:text-5xl font-semibold text-blue-700 tracking-tight">
                                 Certificate of <span className="font-extrabold">Achievement</span>
                             </h2>
                         </div>
                     </div>
-                    <p className="text-center text-lg text-black mb-3">This is to certify that</p>
-                    <p className="text-center text-5xl font-bold italic text-indigo-800 mb-4 shadow-sm">{certificateData.fullName}</p>
-                    <p className="text-center text-lg text-gray-700 mb-2">has <span className="italic font-medium text-green-800">successfully completed</span> the</p>
-                    <p className="text-center text-3xl font-bold text-blue-800 mb-1">{certificateData.courseCompleted}</p>
-                    <p className="text-center text-md text-gray-600 mb-8">at the <i className="font-semibold">{certificateData.levelCompleted}</i> level</p>
+                    <p className="text-center text-base sm:text-lg text-black mb-2 sm:mb-3">This is to certify that</p>
+                    <p className="text-center text-3xl sm:text-5xl font-bold italic text-indigo-800 mb-3 sm:mb-4 shadow-sm">{certificateData.fullName}</p>
+                    <p className="text-center text-base sm:text-lg text-gray-700 mb-1 sm:mb-2">has <span className="italic font-medium text-green-800">successfully completed</span> the</p>
+                    <p className="text-center text-2xl sm:text-3xl font-bold text-blue-800 mb-0.5 sm:mb-1">{certificateData.courseCompleted}</p>
+                    <p className="text-center text-sm sm:text-md text-gray-600 mb-4 sm:mb-8">at the <i className="font-semibold">{certificateData.levelCompleted}</i> level</p>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-3 text-center text-sm text-gray-600 gap-6 my-10">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 text-center text-xs sm:text-sm text-gray-600 gap-3 sm:gap-6 my-6 sm:my-10">
                         <div>
-                            <h4 className="font-semibold text-black uppercase tracking-wide mb-1">Issue Date</h4>
+                            <h4 className="font-semibold text-black uppercase tracking-wide mb-0.5 sm:mb-1">Issue Date</h4>
                             <p className="text-blue-700 font-medium">{certificateData.date}</p>
                         </div>
                         <div>
-                            <h4 className="font-semibold text-black uppercase tracking-wide mb-1">Registration No.</h4>
+                            <h4 className="font-semibold text-black uppercase tracking-wide mb-0.5 sm:mb-1">Registration No.</h4>
                             <p className="text-green-700 font-medium">{certificateData.registrationNumber}</p>
                         </div>
                         <div>
-                            <h4 className="font-semibold text-black uppercase tracking-wide mb-1">Expiration</h4>
+                            <h4 className="font-semibold text-black uppercase tracking-wide mb-0.5 sm:mb-1">Expiration</h4>
                             <p className="text-red-700 font-medium">{certificateData.expiryDate}</p>
                         </div>
                     </div>
 
-                    <div className="flex justify-around items-center mt-12 flex-wrap gap-8">
+                    <div className="flex justify-around items-center mt-6 sm:mt-12 flex-wrap gap-4 sm:gap-8">
                         <div className="text-center">
-                            <img src={certificateData.signature} className="w-32 border-gray-400 mx-auto" alt="Student Signature" />
-                            <p className="text-xs mt-1 text-black border-t">Student Signature</p>
+                            <img src={certificateData.signature} className="w-20 sm:w-32 border-gray-400 mx-auto" alt="Student Signature" />
+                            <p className="text-[0.6rem] sm:text-xs mt-0.5 sm:mt-1 text-black border-t">Student Signature</p>
                         </div>
                         <div className="text-center">
-                            <img src="/man.png" className="w-20 mx-auto border-gray-400" alt="Management Signature" />
-                            <p className="text-xs border-t mt-1 text-black">Management Signature</p>
+                            <img src="/man.png" className="w-10 sm:w-20 mx-auto border-gray-400" alt="Management Signature" />
+                            <p className="text-[0.6rem] sm:text-xs border-t mt-0.5 sm:mt-1 text-black">Management Signature</p>
                         </div>
                         <div className="text-center">
-                            <canvas ref={qrCodeRef} className="w-24 h-32 mx-auto" />
-                            <p className="text-xs text-black mt-1">Scan to Verify</p>
+                            <canvas ref={qrCodeRef} className="w-16 h-20 sm:w-24 sm:h-32 mx-auto" />
+                            <p className="text-[0.6rem] sm:text-xs text-black mt-0.5 sm:mt-1">Scan to Verify</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             {/* Buttons */}
-            <div className="mt-12 flex flex-wrap justify-center gap-4">
-                <button onClick={handleDownload} disabled={loading} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-semibold shadow-md">
-                    <DocumentPlusIcon className="h-5 w-5" />
+            <div className="mt-8 flex flex-wrap justify-center gap-2 sm:gap-4">
+                <button onClick={handleDownload} disabled={loading} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md font-semibold shadow-md text-sm sm:text-base">
+                    <DocumentPlusIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                     {loading ? 'Downloading...' : 'Download'}
                 </button>
-                <button onClick={handlePrint} disabled={loading} className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md font-semibold shadow-md">
-                    <PrinterIcon className="h-5 w-5" />
+                <button onClick={handlePrint} disabled={loading} className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-3 py-2 rounded-md font-semibold shadow-md text-sm sm:text-base">
+                    <PrinterIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                     Print
                 </button>
-                <button onClick={handleShare} disabled={loading} className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-md font-semibold shadow-md">
-                    <ShareIcon className="h-5 w-5" />
+                <button onClick={handleShare} disabled={loading} className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-3 py-2 rounded-md font-semibold shadow-md text-sm sm:text-base">
+                    <ShareIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                     {loading ? 'Sharing...' : 'Share'}
                 </button>
-                <button onClick={handleVerifyCertificate} className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-3 rounded-md font-semibold shadow-md">
-                    <CheckCircleIcon className="h-5 w-5" />
+                <button onClick={handleVerifyCertificate} className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-black px-3 py-2 rounded-md font-semibold shadow-md text-sm sm:text-base">
+                    <CheckCircleIcon className="h-4 w-4 sm:h-5 sm:w-5" />
                     Verify
                 </button>
             </div>
 
             {/* Verification Toast */}
             {isVerificationVisible && (
-                <div className="fixed bottom-6 right-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-lg max-w-sm">
+                <div className="fixed bottom-4 right-4 bg-green-100 border border-green-400 text-green-700 px-3 py-2 rounded shadow-lg max-w-sm text-sm">
                     <strong className="font-bold">Certificate Verified!</strong>
-                    <span className="block sm:inline ml-2">This certificate is authentic.</span>
+                    <span className="block sm:inline ml-1">This certificate is authentic.</span>
                 </div>
             )}
-        
+
         </div>
     );
 };

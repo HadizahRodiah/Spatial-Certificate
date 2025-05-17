@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "serve out",
+    "start": "npx serve out",
     "lint": "next lint",
     "export": "next export"
   },
@@ -39,6 +39,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "15.3.2",
+    "serve": "^14.2.4",
     "typescript": "^5"
   }
 }
