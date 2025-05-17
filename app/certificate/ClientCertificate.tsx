@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
-import { useSearchParams } from 'next/navigation';
 import { toCanvas } from 'qrcode';
 import { toPng, toBlob } from 'html-to-image';
 import {
@@ -27,7 +26,6 @@ interface CertificateData {
 const CertificateDisplay: React.FC = () => {
     const certificateRef = useRef<HTMLDivElement>(null);
     const qrCodeRef = useRef<HTMLCanvasElement>(null);
-    const searchParams = useSearchParams();
 
     const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
@@ -43,6 +41,8 @@ const CertificateDisplay: React.FC = () => {
             'levelCompleted', 'signature', 'qrCode'
         ];
 
+        const searchParams = new URLSearchParams(window.location.search);
+
         requiredKeys.forEach((key) => {
             const value = searchParams.get(key);
             if (value) {
@@ -57,7 +57,7 @@ const CertificateDisplay: React.FC = () => {
         }
 
         setInitialLoading(false);
-    }, [searchParams]);
+    }, []);
 
     useEffect(() => {
         const generateQrCode = async () => {
@@ -228,7 +228,6 @@ const CertificateDisplay: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-black p-6 flex flex-col items-center">
-            {/* Certificate Preview */}
             <div ref={certificateRef} className="relative w-full max-w-4xl rounded-xl shadow-2xl p-10 overflow-hidden border-4 border-opacity-20 border-blue-400 bg-gradient-to-br from-white to-gray-100">
                 <div className="absolute inset-0 bg-[url('/back.png')] bg-cover z-10 pointer-events-none" />
                 <img src="/ssd.png" alt="Logo" className="absolute justify-center z-20 opacity-20 w-full" />
@@ -312,6 +311,7 @@ const CertificateDisplay: React.FC = () => {
                     <span className="block sm:inline ml-2">This certificate is authentic.</span>
                 </div>
             )}
+        
         </div>
     );
 };
