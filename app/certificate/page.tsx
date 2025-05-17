@@ -204,7 +204,7 @@ const CertificateDisplay: React.FC = () => {
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-black p-6 flex flex-col items-center">
             <div ref={certificateRef} className="relative w-full max-w-4xl rounded-xl shadow-2xl p-10 relative overflow-hidden border-4 border-opacity-20 border-blue-400 bg-gradient-to-br from-white to-gray-100">
-                <div className="absolute inset-0 bg-[url('/back.png')] bg-cover z-60 pointer-events-none" />
+                <div className="absolute inset-0 bg-[url('/back.png')] bg-cover z-80 pointer-events-none" />
                 <img src="/ssd.png" alt="Logo" className="absolute justify-center z-3 opacity-20 w-full" />
                 <div className="relative z-30">
                     {/* Certificate content... */}
