@@ -31,8 +31,10 @@ const CertificateDisplay: React.FC = () => {
     const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [isVerificationVisible, setIsVerificationVisible] = useState(false);
+    const [certificateData, setCertificateData] = useState<CertificateData | null>(null);
+    const [initialLoading, setInitialLoading] = useState(true);
 
-    const certificateData = (() => {
+    useEffect(() => {
         const data: Partial<CertificateData> = {};
         for (const [key, value] of searchParams.entries()) {
             (data as any)[key] = decodeURIComponent(value);
@@ -42,8 +44,14 @@ const CertificateDisplay: React.FC = () => {
             'fullName', 'emailAddress', 'courseCompleted',
             'levelCompleted', 'signature', 'qrCode'
         ];
-        return requiredKeys.every(k => data[k]) ? data as CertificateData : null;
-    })();
+
+        if (requiredKeys.every(k => data[k])) {
+            setCertificateData(data as CertificateData);
+        } else {
+            setCertificateData(null);
+        }
+        setInitialLoading(false);
+    }, [searchParams]);
 
     useEffect(() => {
         const generateQrCode = async () => {
@@ -190,6 +198,17 @@ const CertificateDisplay: React.FC = () => {
         setTimeout(() => setIsVerificationVisible(false), 3000);
     };
 
+    if (initialLoading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 text-center p-6">
+                <div className="bg-white shadow-xl rounded-lg p-10 max-w-md w-full">
+                    <h1 className="text-2xl font-bold text-black mb-4">Loading Certificate Data...</h1>
+                    <p className="text-gray-600">Please wait while we retrieve the certificate information.</p>
+                </div>
+            </div>
+        );
+    }
+
     if (!certificateData) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50 text-center p-6">
@@ -250,7 +269,7 @@ const CertificateDisplay: React.FC = () => {
                             <p className="text-xs mt-1 border-t-3 text-black">Student Signature</p>
                         </div>
                         <div className="text-center">
-                            <img src="/man.png" className="w-10 border-gray-400" alt="Management Signature" />
+                            <img src="/man.png" className="w-15 mr-5 border-gray-400" alt="Management Signature" />
                             <p className="text-xs border-t-3 mt-1 text-black">Management Signature</p>
                         </div>
                         <div className="text-center">
