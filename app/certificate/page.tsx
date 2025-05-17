@@ -162,7 +162,7 @@ const CertificateDisplay: React.FC = () => {
                     <style>body { margin: 0; }</style>
                 </head>
                 <body>
-                    <image id="print-image" src="${dataUrl}" style="width:100%;" />
+                    <img id="print-Image" src="${dataUrl}" style="width:100%;" />
                 </body>
             </html>
         `);
@@ -170,9 +170,9 @@ const CertificateDisplay: React.FC = () => {
         printWindow.document.close();
 
         printWindow.onload = () => {
-            const image = printWindow.document.getElementById('print-image') as HTMLImageElement;
-            if (image) {
-                image.onload = () => {
+            const img = printWindow.document.getElementById('print-Image') as HTMLImageElement;
+            if (img) {
+                img.onload = () => {
                     printWindow.focus();
                     printWindow.print();
                     printWindow.close();
@@ -247,11 +247,11 @@ const CertificateDisplay: React.FC = () => {
                     <div className="flex justify-around items-center mt-12 flex-wrap gap-8">
                         <div className="text-center">
                             <img src={certificateData.signature} className="w-32 border-gray-400 mx-auto" alt="Student Signature" />
-                            <p className="text-xs mt-1 text-black">Student Signature</p>
+                            <p className="text-xs mt-1 border-t-3 text-black">Student Signature</p>
                         </div>
                         <div className="text-center">
                             <img src="/man.png" className="w-10 border-gray-400" alt="Management Signature" />
-                            <p className="text-xs mt-1 text-black">Management Signature</p>
+                            <p className="text-xs border-t-3 mt-1 text-black">Management Signature</p>
                         </div>
                         <div className="text-center">
                             <canvas ref={qrCodeRef} className="w-24 h-32 mx-auto" />
@@ -275,16 +275,16 @@ const CertificateDisplay: React.FC = () => {
                     <ShareIcon className="h-5 w-5" />
                     {loading ? 'Sharing...' : 'Share'}
                 </button>
-                <button onClick={handleVerifyCertificate} className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-md font-semibold transition-colors duration-200 shadow-md">
+                <button onClick={handleVerifyCertificate} className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-3 rounded-md font-semibold transition-colors duration-200 shadow-md">
                     <CheckCircleIcon className="h-5 w-5" />
                     Verify
                 </button>
             </div>
 
             {isVerificationVisible && (
-                <div className="mt-6 text-green-400 font-semibold flex items-center gap-2">
-                    <CheckCircleIcon className="h-5 w-5" />
-                    Certificate Verified Successfully!
+                <div className="fixed bottom-6 right-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-lg max-w-sm">
+                    <strong className="font-bold">Certificate Verified!</strong>
+                    <span className="block sm:inline ml-2">This certificate is authentic.</span>
                 </div>
             )}
         </div>

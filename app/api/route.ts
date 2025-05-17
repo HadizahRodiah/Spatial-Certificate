@@ -55,10 +55,17 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ id: user.id }, { status: 201 });
 
-  } catch (error: any) {
-    console.error('Error saving user:', error);
+  } catch (error: unknown) {
+    // Narrow the error type safely
+    let message = 'Failed to save user';
+    if (error instanceof Error) {
+      message = error.message;
+      console.error('Error saving user:', error);
+    } else {
+      console.error('Unexpected error:', error);
+    }
     return NextResponse.json(
-      { error: 'Failed to save user', details: error.message },
+      { error: message },
       { status: 500 }
     );
   }
