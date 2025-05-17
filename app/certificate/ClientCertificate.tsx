@@ -28,6 +28,7 @@ const CertificateDisplay: React.FC = () => {
     const certificateRef = useRef<HTMLDivElement>(null);
     const qrCodeRef = useRef<HTMLCanvasElement>(null);
     const searchParams = useSearchParams();
+
     const [qrCodeDataUrl, setQrCodeDataUrl] = useState<string | null>(null);
     const [loading, setLoading] = useState(false);
     const [isVerificationVisible, setIsVerificationVisible] = useState(false);
@@ -36,20 +37,25 @@ const CertificateDisplay: React.FC = () => {
 
     useEffect(() => {
         const data: Partial<CertificateData> = {};
-        for (const [key, value] of searchParams.entries()) {
-            (data as any)[key] = decodeURIComponent(value);
-        }
         const requiredKeys: (keyof CertificateData)[] = [
             'id', 'date', 'expiryDate', 'registrationNumber',
             'fullName', 'emailAddress', 'courseCompleted',
             'levelCompleted', 'signature', 'qrCode'
         ];
 
-        if (requiredKeys.every(k => data[k])) {
+        requiredKeys.forEach((key) => {
+            const value = searchParams.get(key);
+            if (value) {
+                data[key] = decodeURIComponent(value);
+            }
+        });
+
+        if (requiredKeys.every((key) => data[key])) {
             setCertificateData(data as CertificateData);
         } else {
             setCertificateData(null);
         }
+
         setInitialLoading(false);
     }, [searchParams]);
 
@@ -94,7 +100,7 @@ const CertificateDisplay: React.FC = () => {
 
         try {
             const dataUrl = await toPng(certificateRef.current, {
-                filter: (node) => cleanColorStyles(node as HTMLElement),
+                filter: cleanColorStyles,
                 cacheBust: true,
                 pixelRatio: 2,
             });
@@ -130,7 +136,7 @@ const CertificateDisplay: React.FC = () => {
             if (!certificateRef.current) return;
 
             const blob = await toBlob(certificateRef.current, {
-                filter: (node) => cleanColorStyles(node as HTMLElement),
+                filter: cleanColorStyles,
                 cacheBust: true,
                 pixelRatio: 2,
             });
@@ -222,9 +228,10 @@ const CertificateDisplay: React.FC = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-slate-900 via-indigo-900 to-black p-6 flex flex-col items-center">
-            <div ref={certificateRef} className="relative w-full max-w-4xl rounded-xl shadow-2xl p-10 relative overflow-hidden border-4 border-opacity-20 border-blue-400 bg-gradient-to-br from-white to-gray-100">
-                <div className="absolute inset-0 bg-[url('/back.png')] bg-cover z-80 pointer-events-none" />
-                <img src="/ssd.png" alt="Logo" className="absolute justify-center z-3 opacity-20 w-full" />
+            {/* Certificate Preview */}
+            <div ref={certificateRef} className="relative w-full max-w-4xl rounded-xl shadow-2xl p-10 overflow-hidden border-4 border-opacity-20 border-blue-400 bg-gradient-to-br from-white to-gray-100">
+                <div className="absolute inset-0 bg-[url('/back.png')] bg-cover z-10 pointer-events-none" />
+                <img src="/ssd.png" alt="Logo" className="absolute justify-center z-20 opacity-20 w-full" />
                 <div className="relative z-30">
                     <div className="text-center mb-8">
                         <img src="/icon.png" alt="Logo" className="w-40 mx-auto mb-3" />
@@ -264,11 +271,11 @@ const CertificateDisplay: React.FC = () => {
                     <div className="flex justify-around items-center mt-12 flex-wrap gap-8">
                         <div className="text-center">
                             <img src={certificateData.signature} className="w-32 border-gray-400 mx-auto" alt="Student Signature" />
-                            <p className="text-xs mt-1 border-t-3 text-black">Student Signature</p>
+                            <p className="text-xs mt-1 text-black border-t">Student Signature</p>
                         </div>
                         <div className="text-center">
-                            <img src="/man.png" className="w-15 mr-5 border-gray-400" alt="Management Signature" />
-                            <p className="text-xs border-t-3 mt-1 text-black">Management Signature</p>
+                            <img src="/man.png" className="w-20 mx-auto border-gray-400" alt="Management Signature" />
+                            <p className="text-xs border-t mt-1 text-black">Management Signature</p>
                         </div>
                         <div className="text-center">
                             <canvas ref={qrCodeRef} className="w-24 h-32 mx-auto" />
@@ -278,25 +285,27 @@ const CertificateDisplay: React.FC = () => {
                 </div>
             </div>
 
+            {/* Buttons */}
             <div className="mt-12 flex flex-wrap justify-center gap-4">
-                <button onClick={handleDownload} disabled={loading} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-semibold transition-colors duration-200 shadow-md">
+                <button onClick={handleDownload} disabled={loading} className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-md font-semibold shadow-md">
                     <DocumentPlusIcon className="h-5 w-5" />
                     {loading ? 'Downloading...' : 'Download'}
                 </button>
-                <button onClick={handlePrint} disabled={loading} className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md font-semibold transition-colors duration-200 shadow-md">
+                <button onClick={handlePrint} disabled={loading} className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-md font-semibold shadow-md">
                     <PrinterIcon className="h-5 w-5" />
                     Print
                 </button>
-                <button onClick={handleShare} disabled={loading} className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-md font-semibold transition-colors duration-200 shadow-md">
+                <button onClick={handleShare} disabled={loading} className="flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-6 py-3 rounded-md font-semibold shadow-md">
                     <ShareIcon className="h-5 w-5" />
                     {loading ? 'Sharing...' : 'Share'}
                 </button>
-                <button onClick={handleVerifyCertificate} className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-3 rounded-md font-semibold transition-colors duration-200 shadow-md">
+                <button onClick={handleVerifyCertificate} className="flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-black px-6 py-3 rounded-md font-semibold shadow-md">
                     <CheckCircleIcon className="h-5 w-5" />
                     Verify
                 </button>
             </div>
 
+            {/* Verification Toast */}
             {isVerificationVisible && (
                 <div className="fixed bottom-6 right-6 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded shadow-lg max-w-sm">
                     <strong className="font-bold">Certificate Verified!</strong>
